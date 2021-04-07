@@ -58,6 +58,22 @@
            "fullscreen": true
        }
     },
+	    outcomes: [
+        {
+            arguments: { branchResult: 'selected_weather' },
+            metaData: {
+                label: 'Selected Weather'
+            }
+        },
+        {
+            arguments: {
+                branchResult: 'other_weather'
+            },
+            metaData: {
+                label: 'Other Weather'
+            }
+        }
+    ],
    "schema": {
 		"arguments": {
 			"execute": {
