@@ -1,95 +1,104 @@
 {
     "workflowApiVersion": "1.1",
     "metaData": {
-       "icon": "images/weather.jpg",
-       "category": "flow"
+        "icon": "images/weather.jpg",
+        "category": "flow"
     },
     "type": "REST",
     "lang": {
-       "en-US": {
-           "name": "Decision Weather",
-           "description": "Control the weather like a master"
-       }
+        "en-US": {
+            "name": "Decision Weather",
+            "description": "Control the weather like a master"
+        }
     },
     "arguments": {
         "execute": {
-            "inArguments": [
-                
+            "inArguments": [],
+            "outArguments": [
+                {
+                    "temps": ""
+                }
             ],
-			"outArguments": [
-				{  "temps": ""}
-	],
-		"url": "https://weatheralbert.herokuapp.com/temps2.php/execute", 
-		"verb": "POST",
-        "body": "",
-		"header": "",
-		"format": "json",
-		"useJwt": false,
-		"timeout": 10000
+            "url": "https://weatheralbert.herokuapp.com/temps2.php/execute",
+            "verb": "POST",
+            "body": "",
+            "header": "",
+            "format": "json",
+            "useJwt": false,
+            "timeout": 10000
         }
     },
     "configurationArguments": {
-       "save": {
-          "url": "https://weatheralbert.herokuapp.com/temps2.php/execute",
-		  "verb": "POST"
-       },
-       "publish": {
-          "url": "https://weatheralbert.herokuapp.com/temps2.php/execute", 
-		  "verb": "POST"
-       },
-       "validate": {
-         "url": "https://weatheralbert.herokuapp.com/temps2.php/execute", 
-		  "verb": "POST"
-       },
-       "stop": {
-          "url": "https://weatheralbert.herokuapp.com/temps2.php/execute?ready=ok",
-		  "verb": "POST"
+        "save": {
+            "url": "https://weatheralbert.herokuapp.com/temps2.php/execute",
+            "verb": "POST"
+        },
+        "publish": {
+            "url": "https://weatheralbert.herokuapp.com/temps2.php/execute",
+            "verb": "POST"
+        },
+        "validate": {
+            "url": "https://weatheralbert.herokuapp.com/temps2.php/execute",
+            "verb": "POST"
+        },
+        "stop": {
+            "url": "https://weatheralbert.herokuapp.com/temps2.php/execute?ready=ok",
+            "verb": "POST"
         }
     },
-		"wizardSteps": [
-       { "label": "Step 1", "key": "step1", "active": true },
-       { "label": "Step 2", "key": "step2", "active": true }
-       
+    "wizardSteps": [
+        {
+            "label": "Step 1",
+            "key": "step1",
+            "active": true
+        },
+        {
+            "label": "Step 2",
+            "key": "step2",
+            "active": true
+        }
     ],
     "userInterfaces": {
-       "configModal": {
-           "height": 200,
-           "width": 300,
-           "fullscreen": true
-       }
+        "configModal": {
+            "height": 200,
+            "width": 300,
+            "fullscreen": true
+        }
     },
-	    outcomes: [
+    "outcomes": [
         {
-            arguments: { branchResult: 'selected_weather' },
-            metaData: {
-                label: 'Selected Weather'
+            "arguments": {
+                "branchResult": "selected_weather"
+            },
+            "metaData": {
+                "label": "Selected Weather"
             }
         },
         {
-            arguments: {
-                branchResult: 'other_weather'
+            "arguments": {
+                "branchResult": "other_weather"
             },
-            metaData: {
-                label: 'Other Weather'
+            "metaData": {
+                "label": "Other Weather"
             }
         }
     ],
-   "schema": {
-		"arguments": {
-			"execute": {
-				"inArguments": [],
-				 "outArguments": [
+    "schema": {
+        "arguments": {
+            "execute": {
+                "inArguments": [],
+                "outArguments": [
                     {
                         "temps": {
-                           	"dataType": "Text",
-				"isNullable": false,
-				"access": "visible",
-				"readOnly": false,
-				"direction": "out"
+                            "dataType": "Text",
+                            "isNullable": false,
+                            "access": "visible",
+                            "readOnly": false,
+                            "direction": "out"
                         }
                     }
                 ]
-	     }
-	}
-     }
+            }
+        }
+    }
 }

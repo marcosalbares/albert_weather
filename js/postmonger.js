@@ -28,7 +28,7 @@
 	var Connection, Events, Session;
 
 	//Set up Postmonger namespace, provide noConflict support, and version
-	if (typeof(exports) !== 'undefined') {
+	if (typeof (exports) !== 'undefined') {
 		Postmonger = exports;
 	} else {
 		Postmonger = {};
@@ -41,7 +41,7 @@
 
 	//Create a new Postmonger Connection
 	Connection = Postmonger.Connection = function (options) {
-		options = (typeof(options) === 'object') ? options : {};
+		options = (typeof (options) === 'object') ? options : {};
 
 		var connect = options.connect || _window.parent;
 		var from = options.from || '*';
@@ -49,7 +49,7 @@
 		var self = this;
 
 		//If string, grab based on id
-		if (typeof(connect) === 'string') {
+		if (typeof (connect) === 'string') {
 			connect = document.getElementById(connect);
 		}
 
@@ -94,7 +94,7 @@
 				return Object.keys(obj);
 			}
 
-			if (typeof(obj)!=='object') {
+			if (typeof (obj) !== 'object') {
 				throw new TypeError('Invalid object');
 			}
 
@@ -210,7 +210,7 @@
 
 	//Create a new Postmonger Session
 	Session = Postmonger.Session = function () {
-		var args = (arguments.length>0) ? Array.prototype.slice.call(arguments, 0) : [{}];
+		var args = (arguments.length > 0) ? Array.prototype.slice.call(arguments, 0) : [{}];
 		var connections = [];
 		var incoming = new Events();
 		var outgoing = new Events();
@@ -233,10 +233,10 @@
 		};
 
 		//Establishing connections
-		for (i=0, l=args.length; i<l; i++) {
+		for (i = 0, l = args.length; i < l; i++) {
 			connection = new Connection(args[i]);
 			if (connection) {
-				for (j=0, ln=connections.length; j<ln; j++) {
+				for (j = 0, ln = connections.length; j < ln; j++) {
 					if (
 						connections[j].connect === connection.connect &&
 						connections[j].from === connection.from &&
@@ -253,14 +253,14 @@
 		}
 
 		//Listener for incoming messages
-		postMessageListener = function(event){
+		postMessageListener = function (event) {
 			var conn = null;
 			var message = [];
 			var data;
 			var k, len;
 
 			//Attempt to find the connection we're dealing with
-			for (k=0, len=connections.length; k<len; k++) {
+			for (k = 0, len = connections.length; k < len; k++) {
 				if (connections[k].connect === event.source) {
 					conn = connections[k];
 					break;
@@ -278,12 +278,12 @@
 			}
 
 			//Check the data that's been passed
-			try{
+			try {
 				data = JSON.parse(event.data);
-				if(!data.e){
+				if (!data.e) {
 					return false;
 				}
-			}catch(e){
+			} catch (e) {
 				return false;
 			}
 
@@ -301,9 +301,9 @@
 		//Add the listener
 		if (_window.addEventListener) {
 			_window.addEventListener('message', postMessageListener, false);
-		} else if(_window.attachEvent) {
+		} else if (_window.attachEvent) {
 			_window.attachEvent('onmessage', postMessageListener);
-		} else{
+		} else {
 			if (_window.console && _window.console.warn) {
 				_window.console.warn('WARNING: Postmonger could not listen for messages on window %o', _window);
 			}
@@ -318,11 +318,11 @@
 
 			message.e = args[0];
 
-			for (k=1, len=args.length; k<len; k++) {
+			for (k = 1, len = args.length; k < len; k++) {
 				message['a' + k] = args[k];
 			}
 
-			for (k=0, len=connections.length; k<len; k++) {
+			for (k = 0, len = connections.length; k < len; k++) {
 				connections[k].connect.postMessage(JSON.stringify(message), connections[k].to);
 			}
 		});

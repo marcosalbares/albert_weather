@@ -1,6 +1,6 @@
 define([
     'js/postmonger'
-], function(
+], function (
     Postmonger
 ) {
     'use strict';
@@ -8,9 +8,9 @@ define([
     var connection = new Postmonger.Session();
     var payload = {};
     var lastStepEnabled = false;
-    var steps = [ 
+    var steps = [
         { "label": "Step 1", "key": "step1" },
-		{ "label": "Step 2", "key": "step2" }
+        { "label": "Step 2", "key": "step2" }
     ];
     var currentStep = steps[0].key;
 
@@ -19,23 +19,23 @@ define([
     connection.on('initActivity', initialize);
     connection.on('requestedTokens', onGetTokens);
     connection.on('requestedEndpoints', onGetEndpoints);
-	connection.on('clickedNext', onClickedNext);
+    connection.on('clickedNext', onClickedNext);
     connection.on('clickedBack', onClickedBack);
     connection.on('gotoStep', onGotoStep);
 
     function onRender() {
         connection.trigger('ready');
-		connection.trigger('requestTokens');
+        connection.trigger('requestTokens');
         connection.trigger('requestEndpoints');
-		
-        $('#select1').change(function() {
+
+        $('#select1').change(function () {
             var message = getMessage();
             connection.trigger('updateButton', { button: 'next', enabled: Boolean(message) });
 
             $('#message').html(message);
         });
-	}
-	function initialize (data) {
+    }
+    function initialize(data) {
         if (data) {
             payload = data;
         }
@@ -50,8 +50,8 @@ define([
 
         var inArguments = hasInArguments ? payload['arguments'].execute.inArguments : {};
 
-        $.each(inArguments, function(index, inArgument) {
-            $.each(inArgument, function(key, val) {
+        $.each(inArguments, function (index, inArgument) {
+            $.each(inArgument, function (key, val) {
                 if (key === 'message') {
                     message = val;
                 }
@@ -62,20 +62,20 @@ define([
             showStep(null, 1);
             connection.trigger('updateButton', { button: 'next', enabled: false });
         } else {
-            $('#select1').find('option[value='+ message +']').attr('selected', 'selected');
+            $('#select1').find('option[value=' + message + ']').attr('selected', 'selected');
             $('#message').html(message);
             showStep(null, 2);
         }
     }
 
-    function onGetTokens (tokens) {
-         console.log(tokens);
+    function onGetTokens(tokens) {
+        console.log(tokens);
     }
 
-    function onGetEndpoints (endpoints) {
+    function onGetEndpoints(endpoints) {
     }
 
-    function onClickedNext () {
+    function onClickedNext() {
         if (
             (currentStep.key === 'step2')
         ) {
@@ -85,25 +85,25 @@ define([
         }
     }
 
-    function onClickedBack () {
+    function onClickedBack() {
         connection.trigger('prevStep');
     }
 
-    function onGotoStep (step) {
+    function onGotoStep(step) {
         showStep(step);
         connection.trigger('ready');
     }
 
     function showStep(step, stepIndex) {
         if (stepIndex && !step) {
-            step = steps[stepIndex-1];
+            step = steps[stepIndex - 1];
         }
 
         currentStep = step;
 
         $('.step').hide();
 
-        switch(currentStep.key) {
+        switch (currentStep.key) {
             case 'step1':
                 $('#step1').show();
                 connection.trigger('updateButton', {
@@ -135,14 +135,14 @@ define([
         var value = getMessage();
 
         payload.name = name;
-		payload['arguments'].execute.inArguments = [{ "message": value }];
-		payload['metaData'].isConfigured = true;
-		connection.trigger('updateActivity', payload);
+        payload['arguments'].execute.inArguments = [{ "message": value }];
+        payload['metaData'].isConfigured = true;
+        connection.trigger('updateActivity', payload);
     }
 
     function getMessage() {
-		var albert = $('#select1').find('option:selected').attr('value').trim();
-		console.log (albert);
+        var albert = $('#select1').find('option:selected').attr('value').trim();
+        console.log(albert);
         return $('#select1').find('option:selected').attr('value').trim();
     }
 
